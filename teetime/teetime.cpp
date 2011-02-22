@@ -31,22 +31,21 @@ THE SOFTWARE.
 
 int main(int argc, char* argv[])
 {
+   // TODO: get -a option from command line
    bool append = true;
    std::ios_base::openmode mode = std::ios_base::out;
    if (append)
       mode |= std::ios_base::app;
+   // TODO: get file name from command line
    std::ofstream file("teetime.out", mode);
    std::string line;
    char buffer [80];
+   time_t now;
    while (getline(std::cin, line))
    {
-      time_t now;
-      struct tm * timeinfo;
-
       time(&now);
-      timeinfo = localtime ( &now );
-
-      strftime (buffer, 80, "[%X] ", timeinfo);
+      struct tm * timeinfo = localtime(&now);
+      strftime(buffer, 80, "[%X] ", timeinfo);
       std::cout << buffer << line << std::endl;
       file << buffer << line << std::endl;
    }
