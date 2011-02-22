@@ -29,17 +29,41 @@ THE SOFTWARE.
 #include <string>
 #include <ctime>
 
+void usage()
+{
+   std::cout << "Usage: teetime [-a] [filename]" << std::endl;
+   std::cout << "Parameters:" << std::endl;
+   std::cout << "\tfilename\tFile to write to (default: teetime.out)" << std::endl;
+   std::cout << "Options:" << std::endl;
+   std::cout << "\t-a\tAppend to file" << std::endl;
+}
+
 int main(int argc, char* argv[])
 {
-   // TODO: get -a option from command line
-   bool append = true;
+   if (argc == 2 && std::string(argv[1]) == "-h")
+   {
+      usage();
+      return 0;
+   }
+
    std::ios_base::openmode mode = std::ios_base::out;
-   if (append)
-      mode |= std::ios_base::app;
-   // TODO: get file name from command line
-   std::ofstream file("teetime.out", mode);
+   std::string filename = "teetime.out";
+   if (argc > 1)
+   {
+      int i = 1;
+      if (std::string(argv[i]) == "-a")
+      {
+         mode |= std::ios_base::app;
+         i++;
+      }
+      if (i < argc)
+      {
+         filename = argv[i];
+      }
+   }
+   std::ofstream file(filename.c_str(), mode);
    std::string line;
-   char buffer [80];
+   char buffer[80];
    time_t now;
    while (getline(std::cin, line))
    {
