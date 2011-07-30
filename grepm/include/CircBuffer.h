@@ -45,9 +45,12 @@ public:
 
     bool empty() const;
     std::size_t size() const;
+    // add the newest element to the buffer
     void add(const std::string& value);
+    // removes the oldest element form the buffer
     bool shift();
 
+    // get the oldest element in the buffer
     const std::string& get() const;
     const std::string& get(std::size_t index) const;
 

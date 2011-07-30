@@ -1,8 +1,13 @@
 #include <CircBuffer.h>
+#include <cassert>
+#include <stdexcept>
 
 CircBuffer::CircBuffer(std::size_t capacity)
   : capacity_(capacity)
 {
+  assert(capacity > 0);
+  if (capacity == 0)
+    throw std::invalid_argument("CircBuffer: capacity must be > 0");
 }
 
 bool CircBuffer::empty() const
@@ -21,11 +26,6 @@ void CircBuffer::add(const std::string& value)
     deque_.pop_front();
   deque_.push_back(value);
 }
-
-//void CircBuffer::clear()
-//{
-//  deque_.clear();
-//}
 
 bool CircBuffer::shift()
 {

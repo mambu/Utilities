@@ -56,3 +56,19 @@ TEST(TestCircBuffer, Test3)
   buffer.shift();
   ASSERT_EQ(0, buffer.size());
 }
+
+TEST(TestCircBuffer, TestEmpty)
+{
+  CircBuffer buffer(3);
+
+  ASSERT_TRUE(buffer.empty());
+  ASSERT_EQ(0, buffer.size());
+
+  buffer.add("one");
+  ASSERT_EQ(1, buffer.size());
+  ASSERT_FALSE(buffer.empty());
+
+  buffer.shift();
+  ASSERT_EQ(0, buffer.size());
+  ASSERT_TRUE(buffer.empty());
+}
