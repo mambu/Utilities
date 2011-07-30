@@ -43,10 +43,11 @@ class CircBuffer
 public:
     CircBuffer(std::size_t capacity);
 
+    bool empty() const;
     std::size_t size() const;
     void add(const std::string& value);
     bool shift();
-//    void clear();
+
     const std::string& get() const;
     const std::string& get(std::size_t index) const;
 

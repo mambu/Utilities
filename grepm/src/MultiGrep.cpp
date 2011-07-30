@@ -23,7 +23,7 @@ bool MultiGrep::process(const std::string& line)
 
 bool MultiGrep::hasNext() const
 {
-  return buffer_.size() != 0 && print_;
+  return print_ && !buffer_.empty();
 }
 
 void MultiGrep::getNext(std::string& line)

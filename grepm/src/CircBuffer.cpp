@@ -5,6 +5,11 @@ CircBuffer::CircBuffer(std::size_t capacity)
 {
 }
 
+bool CircBuffer::empty() const
+{
+  return deque_.empty();
+}
+
 std::size_t CircBuffer::size() const
 {
   return deque_.size();
