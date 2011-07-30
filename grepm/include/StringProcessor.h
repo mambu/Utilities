@@ -42,7 +42,7 @@ class StringProcessor
 public:
   virtual ~StringProcessor() {}
 
-  virtual bool process(const std::string& line) = 0;
+  virtual void process(std::string& line) = 0;
 };
 
 #endif	// _STRINGPROCESSOR_H

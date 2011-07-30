@@ -17,12 +17,23 @@ void CircBuffer::add(const std::string& value)
   deque_.push_back(value);
 }
 
-void CircBuffer::clear()
+//void CircBuffer::clear()
+//{
+//  deque_.clear();
+//}
+
+bool CircBuffer::shift()
 {
-  deque_.clear();
+  deque_.pop_front();
+  return !deque_.empty();
 }
 
 const std::string& CircBuffer::get(std::size_t index) const
 {
   return deque_[index];
+}
+
+const std::string& CircBuffer::get() const
+{
+  return deque_.front();
 }

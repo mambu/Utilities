@@ -1,10 +1,9 @@
 #include <MultiGrep.h>
 
-MultiGrep::MultiGrep(StringProcessor& stringProcessor, std::ostream& os, std::size_t numLines)
-  : stringProcessor_(stringProcessor)
+MultiGrep::MultiGrep(Filter& filter, std::size_t numLines)
+  : filter_(filter)
   , buffer_(numLines + 1)
   , numLines_(numLines)
-  , ostream_(os)
   , print_(false)
   , count_(0)
 {
@@ -12,21 +11,30 @@ MultiGrep::MultiGrep(StringProcessor& stringProcessor, std::ostream& os, std::si
 
 bool MultiGrep::process(const std::string& line)
 {
-  bool match = stringProcessor_.process(line);
+  bool match = filter_.process(line);
   buffer_.add(line);
   if (match)
   {
-    for (std::size_t i = 0; i < buffer_.size(); ++i)
-      ostream_ << buffer_.get(i);
-    buffer_.clear();
-    count_ = numLines_;
+    count_ = numLines_ + buffer_.size();
     print_ = true;
   }
-  else if (print_)
-  {
-    ostream_ << line;
-    --count_;
-  }
-  print_ = print_ && count_;
   return match;
+}
+
+bool MultiGrep::hasNext() const
+{
+  return buffer_.size() != 0 && print_;
+}
+
+void MultiGrep::getNext(std::string& line)
+{
+  if (print_)
+  {
+    line = buffer_.get();
+    --count_;
+    print_ = print_ && count_;
+    buffer_.shift();
+  }
+  else
+    line = "";
 }

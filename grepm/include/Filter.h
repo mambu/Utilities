@@ -26,33 +26,23 @@ THE SOFTWARE.
 
 
 /* 
- * File:   CircBuffer.h
+ * File:   Filter.h
  * Author: Marco Ambu
  *
- * Created on July 29, 2011, 7:00 PM
+ * Created on July 30, 2011, 6:20 AM
  */
 
-#ifndef _CIRCBUFFER_H
-#define	_CIRCBUFFER_H
+#ifndef _FILTER_H
+#define	_FILTER_H
 
-#include <deque>
 #include <string>
 
-class CircBuffer
+class Filter
 {
 public:
-    CircBuffer(std::size_t capacity);
+  virtual ~Filter() {}
 
-    std::size_t size() const;
-    void add(const std::string& value);
-    bool shift();
-//    void clear();
-    const std::string& get() const;
-    const std::string& get(std::size_t index) const;
-
-private:
-    std::size_t capacity_;
-    std::deque<std::string> deque_;
+  virtual bool process(const std::string& line) = 0;
 };
 
-#endif	// _CIRCBUFFER_H
+#endif	// _FILTER_H

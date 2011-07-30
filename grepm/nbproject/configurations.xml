@@ -4,10 +4,13 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>include/BufferedFilter.h</itemPath>
       <itemPath>include/CircBuffer.h</itemPath>
+      <itemPath>include/Filter.h</itemPath>
       <itemPath>include/Grep.h</itemPath>
       <itemPath>include/MultiGrep.h</itemPath>
       <itemPath>include/StringProcessor.h</itemPath>
+      <itemPath>include/Writer.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"

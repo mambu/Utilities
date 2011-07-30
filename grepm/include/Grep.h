@@ -35,9 +35,9 @@ THE SOFTWARE.
 #ifndef _GREP_H
 #define	_GREP_H
 
-#include <StringProcessor.h>
+#include <Filter.h>
 
-class Grep : public StringProcessor
+class Grep : public Filter
 {
 public:
   Grep(const std::string& expr);

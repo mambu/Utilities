@@ -26,33 +26,26 @@ THE SOFTWARE.
 
 
 /* 
- * File:   CircBuffer.h
+ * File:   Writer.h
  * Author: Marco Ambu
  *
- * Created on July 29, 2011, 7:00 PM
+ * Created on July 30, 2011, 6:29 AM
  */
 
-#ifndef _CIRCBUFFER_H
-#define	_CIRCBUFFER_H
+#ifndef _WRITER_H
+#define	_WRITER_H
 
-#include <deque>
-#include <string>
+#include <ostream>
 
-class CircBuffer
+class Writer
 {
 public:
-    CircBuffer(std::size_t capacity);
+  Writer(std::ostream& os);
 
-    std::size_t size() const;
-    void add(const std::string& value);
-    bool shift();
-//    void clear();
-    const std::string& get() const;
-    const std::string& get(std::size_t index) const;
+  void write(const std::string& line);
 
 private:
-    std::size_t capacity_;
-    std::deque<std::string> deque_;
+  std::ostream& ostream_;
 };
 
-#endif	// _CIRCBUFFER_H
+#endif	// _WRITER_H
