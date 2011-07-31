@@ -63,22 +63,20 @@ int main(int argc, char* argv[])
   bool summary = false;
 
   int i = 1;
-  for ( ; i < argc - 2; ++i)
+  while ((i < argc - 1) && std::string(argv[i]).size() == 2 && argv[i][0] == '-')
   {
-    if (std::string(argv[i]).size() == 2 && argv[i][0] == '-')
+    switch (argv[i][1])
     {
-      switch (argv[i][1])
-      {
-        case 'n':
-          lineNumbers = true;
-          break;
-        case 's':
-          summary = true;
-          break;
-        default:
-          break;
-      }
+      case 'n':
+        lineNumbers = true;
+        break;
+      case 's':
+        summary = true;
+        break;
+      default:
+        break;
     }
+    ++i;
   }
 
   std::string pattern = argv[i];
@@ -100,13 +98,21 @@ int main(int argc, char* argv[])
   {
     lineCount.process(line);
     bool filterRes = grep.process(line);
-    lineNumber.process(line);
+    if (lineNumbers)
+    {
+      lineNumber.process(line);
+    }
     multiGrep.process(line, filterRes);
     while(multiGrep.hasNext())
     {
       multiGrep.getNext(line);
       std::cout << line << std::endl;
     }
+  }
+  if (summary)
+  {
+    std::cout << "==================" << std::endl;
+    std::cout << "Line count: " << lineCount.getCount() << std::endl;
   }
 
   return 0;
