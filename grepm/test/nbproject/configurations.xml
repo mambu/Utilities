@@ -18,6 +18,7 @@
         <itemPath>../src/LineNumber.cpp</itemPath>
         <itemPath>../src/MultiGrep.cpp</itemPath>
       </logicalFolder>
+      <itemPath>src/TestChain.cpp</itemPath>
       <itemPath>src/TestCircBuffer.cpp</itemPath>
       <itemPath>src/TestLineNumber.cpp</itemPath>
       <itemPath>src/TestMultiGrep.cpp</itemPath>

@@ -27,18 +27,21 @@ THE SOFTWARE.
 #include <MultiGrep.h>
 #include <Grep.h>
 #include <LineNumber.h>
+#include <LineCount.h>
 #include <iostream>
 #include <fstream>
 #include <string>
 
 void usage()
 {
-   std::cout << "Usage: grepm pattern [filename]" << std::endl;
+   std::cout << "Usage: grepm [Options] pattern [filename]" << std::endl;
    std::cout << "Parameters:" << std::endl;
    std::cout << "\tpattern\tPattern to search for" << std::endl;
    std::cout << "\tfilename\tFile to read from" << std::endl;
    std::cout << "Options:" << std::endl;
    std::cout << "\t-h\tPrint help and exit" << std::endl;
+   std::cout << "\t-n\tPrint line numbers" << std::endl;
+   std::cout << "\t-s\tPrint summary at the end" << std::endl;
 }
 
 int main(int argc, char* argv[])
@@ -55,11 +58,33 @@ int main(int argc, char* argv[])
     return 1;
   }
 
-  std::string pattern = argv[1];
+  // parse options
+  bool lineNumbers = false;
+  bool summary = false;
 
-  // Global processing
+  int i = 1;
+  for ( ; i < argc - 2; ++i)
+  {
+    if (std::string(argv[i]).size() == 2 && argv[i][0] == '-')
+    {
+      switch (argv[i][1])
+      {
+        case 'n':
+          lineNumbers = true;
+          break;
+        case 's':
+          summary = true;
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  std::string pattern = argv[i];
 
   // Preprocessing
+  LineCount lineCount;
 
   // Filtering
   Grep grep(pattern);
@@ -73,6 +98,7 @@ int main(int argc, char* argv[])
   std::string line;
   while (getline(std::cin, line))
   {
+    lineCount.process(line);
     bool filterRes = grep.process(line);
     lineNumber.process(line);
     multiGrep.process(line, filterRes);

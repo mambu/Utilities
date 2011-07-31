@@ -35,6 +35,7 @@ void usage()
    std::cout << "Parameters:" << std::endl;
    std::cout << "\tfilename\tFile to write to (default: teetime.out)" << std::endl;
    std::cout << "Options:" << std::endl;
+   std::cout << "\t-h\tPrint help and exit" << std::endl;
    std::cout << "\t-a\tAppend to file" << std::endl;
 }
 

@@ -36,6 +36,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/_DOTDOT/src/Grep.o \
 	${OBJECTDIR}/_ext/_DOTDOT/src/CircBuffer.o \
 	${OBJECTDIR}/_ext/_DOTDOT/src/LineNumber.o \
+	${OBJECTDIR}/src/TestChain.o \
 	${OBJECTDIR}/src/TestLineNumber.o \
 	${OBJECTDIR}/src/TestMultiGrep.o
 
@@ -87,6 +88,11 @@ ${OBJECTDIR}/_ext/_DOTDOT/src/LineNumber.o: nbproject/Makefile-${CND_CONF}.mk ..
 	${MKDIR} -p ${OBJECTDIR}/_ext/_DOTDOT/src
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/_DOTDOT/src/LineNumber.o ../src/LineNumber.cpp
+
+${OBJECTDIR}/src/TestChain.o: nbproject/Makefile-${CND_CONF}.mk src/TestChain.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/TestChain.o src/TestChain.cpp
 
 ${OBJECTDIR}/src/TestLineNumber.o: nbproject/Makefile-${CND_CONF}.mk src/TestLineNumber.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src

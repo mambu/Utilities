@@ -5,6 +5,8 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>include/Buffer.h</itemPath>
+      <itemPath>include/Chain.h</itemPath>
+      <itemPath>include/ChainItem.h</itemPath>
       <itemPath>include/CircBuffer.h</itemPath>
       <itemPath>include/Filter.h</itemPath>
       <itemPath>include/Grep.h</itemPath>
