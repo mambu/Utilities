@@ -26,24 +26,24 @@ THE SOFTWARE.
 
 
 /* 
- * File:   BufferedStringProcessor.h
+ * File:   Buffer.h
  * Author: Marco Ambu
  *
  * Created on July 30, 2011, 6:25 AM
  */
 
-#ifndef _BUFFEREDFILTER_H
-#define	_BUFFEREDFILTER_H
+#ifndef _BUFFER_H
+#define	_BUFFER_H
 
-#include <Filter.h>
+#include <string>
 
-class BufferedFilter : public Filter
+class Buffer
 {
 public:
-  virtual ~BufferedFilter() {}
+  virtual ~Buffer() {}
 
   virtual bool hasNext() const = 0;
   virtual void getNext(std::string& line) = 0;
 };
 
-#endif	// _BUFFEREDFILTER_H
+#endif	// _BUFFER
