@@ -24,64 +24,28 @@ THE SOFTWARE.
 
  */
 
-#include <MultiGrep.h>
-#include <Grep.h>
-#include <LineNumber.h>
-#include <iostream>
-#include <fstream>
-#include <string>
 
-void usage()
+/* 
+ * File:   LineNumber.h
+ * Author: Marco Ambu
+ *
+ * Created on July 30, 2011, 6:07 PM
+ */
+
+#ifndef _LINENUMBER_H
+#define	_LINENUMBER_H
+
+#include <StringProcessor.h>
+
+class LineNumber : public StringProcessor
 {
-   std::cout << "Usage: grepm pattern [filename]" << std::endl;
-   std::cout << "Parameters:" << std::endl;
-   std::cout << "\tpattern\tPattern to search for" << std::endl;
-   std::cout << "\tfilename\tFile to read from" << std::endl;
-   std::cout << "Options:" << std::endl;
-   std::cout << "\t-h\tPrint help and exit" << std::endl;
-}
+public:
+  LineNumber();
 
-int main(int argc, char* argv[])
-{
-  if (argc == 2 && std::string(argv[1]) == "-h")
-  {
-    usage();
-    return 0;
-  }
+  void process(std::string& line);
 
-  if (argc < 2)
-  {
-    usage();
-    return 1;
-  }
+private:
+  std::size_t lineNum_;
+};
 
-  std::string pattern = argv[1];
-
-  // Global processing
-
-  // Preprocessing
-
-  // Filtering
-  Grep grep(pattern);
-
-  //Postprocessing
-  LineNumber lineNumber;
-
-  // Buffering
-  MultiGrep multiGrep(2);
-
-  std::string line;
-  while (getline(std::cin, line))
-  {
-    bool filterRes = grep.process(line);
-    lineNumber.process(line);
-    multiGrep.process(line, filterRes);
-    while(multiGrep.hasNext())
-    {
-      multiGrep.getNext(line);
-      std::cout << line << std::endl;
-    }
-  }
-
-  return 0;
-}
+#endif	// _LINENUMBER_H

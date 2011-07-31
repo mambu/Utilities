@@ -35,26 +35,24 @@ THE SOFTWARE.
 #ifndef _MULTIGREP_H
 #define	_MULTIGREP_H
 
-#include <Filter.h>
 #include <CircBuffer.h>
-#include <BufferedFilter.h>
+#include <Buffer.h>
 
-class MultiGrep : public BufferedFilter
+class MultiGrep : public Buffer
 {
 public:
-    MultiGrep(Filter& filter, std::size_t numLines = 1);
+    MultiGrep(std::size_t numLines = 1);
 
-    bool process(const std::string& line);
+    bool process(const std::string& line, bool match);
+
     bool hasNext() const;
     void getNext(std::string& line);
 
 private:
-  Filter& filter_;
   CircBuffer buffer_;
   std::size_t numLines_;
   bool print_;
   std::size_t count_;
 };
 
-#endif	/* _MULTIGREP_H */
-
+#endif	// _MULTIGREP_H

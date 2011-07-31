@@ -1,17 +1,15 @@
 #include <MultiGrep.h>
 
-MultiGrep::MultiGrep(Filter& filter, std::size_t numLines)
-  : filter_(filter)
-  , buffer_(numLines + 1)
+MultiGrep::MultiGrep(std::size_t numLines)
+  : buffer_(numLines + 1)
   , numLines_(numLines)
   , print_(false)
   , count_(0)
 {
 }
 
-bool MultiGrep::process(const std::string& line)
+bool MultiGrep::process(const std::string& line, bool match)
 {
-  bool match = filter_.process(line);
   buffer_.add(line);
   if (match)
   {

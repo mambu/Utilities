@@ -31,10 +31,11 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/src/MultiGrep.o \
-	${OBJECTDIR}/src/Grep.o \
 	${OBJECTDIR}/src/CircBuffer.o \
-	${OBJECTDIR}/main.o
+	${OBJECTDIR}/src/LineNumber.o \
+	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/src/MultiGrep.o \
+	${OBJECTDIR}/src/Grep.o
 
 # C Compiler Flags
 CFLAGS=
@@ -60,6 +61,21 @@ dist/Release/GNU-Linux-x86/grepm: ${OBJECTFILES}
 	${MKDIR} -p dist/Release/GNU-Linux-x86
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/grepm ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
+${OBJECTDIR}/src/CircBuffer.o: nbproject/Makefile-${CND_CONF}.mk src/CircBuffer.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -Iinclude -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/CircBuffer.o src/CircBuffer.cpp
+
+${OBJECTDIR}/src/LineNumber.o: nbproject/Makefile-${CND_CONF}.mk src/LineNumber.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -Iinclude -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/LineNumber.o src/LineNumber.cpp
+
+${OBJECTDIR}/main.o: nbproject/Makefile-${CND_CONF}.mk main.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -Iinclude -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+
 ${OBJECTDIR}/src/MultiGrep.o: nbproject/Makefile-${CND_CONF}.mk src/MultiGrep.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} $@.d
@@ -69,16 +85,6 @@ ${OBJECTDIR}/src/Grep.o: nbproject/Makefile-${CND_CONF}.mk src/Grep.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -Iinclude -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/Grep.o src/Grep.cpp
-
-${OBJECTDIR}/src/CircBuffer.o: nbproject/Makefile-${CND_CONF}.mk src/CircBuffer.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -Iinclude -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/CircBuffer.o src/CircBuffer.cpp
-
-${OBJECTDIR}/main.o: nbproject/Makefile-${CND_CONF}.mk main.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -Iinclude -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
 
 # Subprojects
 .build-subprojects:

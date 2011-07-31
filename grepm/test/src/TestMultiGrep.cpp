@@ -1,90 +1,87 @@
 #include <gtest/gtest.h>
 #include <MultiGrep.h>
 
-class TestFilter : public Filter
-{
-public:
-  TestFilter(std::size_t count)
-    : count_(count)
-    , counter_(0)
-  {}
-
-  bool process(const std::string& line)
-  {
-    counter_++;
-    return counter_ == count_;
-  }
-
-  void reset()
-  {
-    counter_ = 0;
-  }
-
-private:
-  std::size_t count_;
-  std::size_t counter_;
-};
+//class TestFilter : public Filter
+//{
+//public:
+//  TestFilter(std::size_t count)
+//    : count_(count)
+//    , counter_(0)
+//  {}
+//
+//  bool process(const std::string& line)
+//  {
+//    counter_++;
+//    return counter_ == count_;
+//  }
+//
+//  void reset()
+//  {
+//    counter_ = 0;
+//  }
+//
+//private:
+//  std::size_t count_;
+//  std::size_t counter_;
+//};
 
 TEST(TestMultiGrep, TestGrep1)
 {
   std::string line;
-  TestFilter testFilter(1);
-  MultiGrep grep(testFilter, 1);
-  grep.process("hi1\n"); // x - M
+  MultiGrep grep(1);
+  grep.process("hi1\n", true); // x - M
   ASSERT_TRUE(grep.hasNext());
   grep.getNext(line);
   ASSERT_EQ("hi1\n", line);
   ASSERT_FALSE(grep.hasNext());
-  grep.process("hi2\n"); // x
+  grep.process("hi2\n", false); // x
   ASSERT_TRUE(grep.hasNext());
   grep.getNext(line);
   ASSERT_EQ("hi2\n", line);
   ASSERT_FALSE(grep.hasNext());
-  grep.process("hi3\n");
+  grep.process("hi3\n", false);
   ASSERT_FALSE(grep.hasNext());
-  grep.process("hi4\n");
+  grep.process("hi4\n", false);
   ASSERT_FALSE(grep.hasNext());
 }
 
 TEST(TestMultiGrep, TestGrep2)
 {
   std::string line;
-  TestFilter testFilter(2);
-  MultiGrep grep(testFilter, 1);
-  grep.process("hi1\n"); // x
+  MultiGrep grep(1);
+  grep.process("hi1\n", false); // x
   ASSERT_FALSE(grep.hasNext());
-  grep.process("hi2\n"); // x - M
+  grep.process("hi2\n", true); // x - M
   ASSERT_TRUE(grep.hasNext());
   grep.getNext(line);
   ASSERT_EQ("hi1\n", line);
   ASSERT_TRUE(grep.hasNext());
   grep.getNext(line);
   ASSERT_EQ("hi2\n", line);
-  grep.process("hi3\n"); // x
+  grep.process("hi3\n", false); // x
   ASSERT_TRUE(grep.hasNext());
   grep.getNext(line);
   ASSERT_EQ("hi3\n", line);
-  grep.process("hi4\n");
+  grep.process("hi4\n", false);
   ASSERT_FALSE(grep.hasNext());
 }
 
 TEST(TestMultiGrep, TestGrep3)
 {
   std::string line;
-  TestFilter testFilter(3);
-  MultiGrep grep(testFilter, 1);
-  grep.process("hi1\n");
+  MultiGrep grep(1);
+  grep.process("hi1\n", false);
   ASSERT_FALSE(grep.hasNext());
-  grep.process("hi2\n"); // x
+  grep.process("hi2\n", false); // x
   ASSERT_FALSE(grep.hasNext());
-  grep.process("hi3\n"); // x - M
+  grep.process("hi3\n", true); // x - M
   ASSERT_TRUE(grep.hasNext());
   grep.getNext(line);
   ASSERT_EQ("hi2\n", line);
   ASSERT_TRUE(grep.hasNext());
   grep.getNext(line);
   ASSERT_EQ("hi3\n", line);
-  grep.process("hi4\n"); // x
+  grep.process("hi4\n", false); // x
   ASSERT_TRUE(grep.hasNext());
   grep.getNext(line);
   ASSERT_EQ("hi4\n", line);
@@ -94,15 +91,14 @@ TEST(TestMultiGrep, TestGrep3)
 TEST(TestMultiGrep, TestGrep4)
 {
   std::string line;
-  TestFilter testFilter(4);
-  MultiGrep grep(testFilter, 1);
-  grep.process("hi1\n");
+  MultiGrep grep(1);
+  grep.process("hi1\n", false);
   ASSERT_FALSE(grep.hasNext());
-  grep.process("hi2\n");
+  grep.process("hi2\n", false);
   ASSERT_FALSE(grep.hasNext());
-  grep.process("hi3\n"); // x
+  grep.process("hi3\n", false); // x
   ASSERT_FALSE(grep.hasNext());
-  grep.process("hi4\n"); // x - M
+  grep.process("hi4\n", true); // x - M
   ASSERT_TRUE(grep.hasNext());
   grep.getNext(line);
   ASSERT_EQ("hi3\n", line);
@@ -115,24 +111,22 @@ TEST(TestMultiGrep, TestGrep4)
 TEST(TestMultiGrep, TestGrep5)
 {
   std::string line;
-  TestFilter testFilter(1);
-  MultiGrep grep(testFilter, 1);
-  grep.process("hi1\n");
+  MultiGrep grep(1);
+  grep.process("hi1\n", true);
   ASSERT_TRUE(grep.hasNext());
   grep.getNext(line);
   ASSERT_EQ("hi1\n", line);
-  grep.process("hi2\n");
+  grep.process("hi2\n", false);
   ASSERT_TRUE(grep.hasNext());
   grep.getNext(line);
   ASSERT_EQ("hi2\n", line);
-  grep.process("hi3\n");
+  grep.process("hi3\n", false);
   ASSERT_FALSE(grep.hasNext());
-  grep.process("hi4\n");
+  grep.process("hi4\n", false);
   ASSERT_FALSE(grep.hasNext());
-  grep.process("hi5\n");
+  grep.process("hi5\n", false);
   ASSERT_FALSE(grep.hasNext());
-  testFilter.reset();
-  grep.process("hi6\n");
+  grep.process("hi6\n", true);
   ASSERT_TRUE(grep.hasNext());
   grep.getNext(line);
   ASSERT_EQ("hi5\n", line);
@@ -145,28 +139,26 @@ TEST(TestMultiGrep, TestGrep5)
 TEST(TestMultiGrep, TestGrep6)
 {
   std::string line;
-  TestFilter testFilter(1);
-  MultiGrep grep(testFilter, 2);
-  grep.process("hi1\n"); // x - M
+  MultiGrep grep(2);
+  grep.process("hi1\n", true); // x - M
   ASSERT_TRUE(grep.hasNext());
   grep.getNext(line);
   ASSERT_EQ("hi1\n", line);
-  grep.process("hi2\n"); // x
+  grep.process("hi2\n", false); // x
   ASSERT_TRUE(grep.hasNext());
   grep.getNext(line);
   ASSERT_EQ("hi2\n", line);
-  grep.process("hi3\n"); // x
+  grep.process("hi3\n", false); // x
   ASSERT_TRUE(grep.hasNext());
   grep.getNext(line);
   ASSERT_EQ("hi3\n", line);
-  grep.process("hi4\n");
+  grep.process("hi4\n", false);
   ASSERT_FALSE(grep.hasNext());
-  grep.process("hi5\n"); // x
+  grep.process("hi5\n", false); // x
   ASSERT_FALSE(grep.hasNext());
-  grep.process("hi6\n"); // x
+  grep.process("hi6\n", false); // x
   ASSERT_FALSE(grep.hasNext());
-  testFilter.reset();
-  grep.process("hi7\n"); // x - M
+  grep.process("hi7\n", true); // x - M
   ASSERT_TRUE(grep.hasNext());
   grep.getNext(line);
   ASSERT_EQ("hi5\n", line);
@@ -182,16 +174,14 @@ TEST(TestMultiGrep, TestGrep6)
 TEST(TestMultiGrep, TestGrep7)
 {
   std::string line;
-  TestFilter testFilter(1);
-  MultiGrep grep(testFilter, 0); // no multiple lines, no buffering
-  grep.process("hi1\n"); // x - M
+  MultiGrep grep(0); // no multiple lines, no buffering
+  grep.process("hi1\n", true); // x - M
   ASSERT_TRUE(grep.hasNext());
   grep.getNext(line);
   ASSERT_EQ("hi1\n", line);
-  grep.process("hi2\n");
+  grep.process("hi2\n", false);
   ASSERT_FALSE(grep.hasNext());
-  testFilter.reset();
-  grep.process("hi3\n"); // x - M
+  grep.process("hi3\n", true); // x - M
   ASSERT_TRUE(grep.hasNext());
   grep.getNext(line);
   ASSERT_EQ("hi3\n", line);
