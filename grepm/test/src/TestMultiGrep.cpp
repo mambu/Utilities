@@ -1,30 +1,6 @@
 #include <gtest/gtest.h>
 #include <MultiGrep.h>
 
-//class TestFilter : public Filter
-//{
-//public:
-//  TestFilter(std::size_t count)
-//    : count_(count)
-//    , counter_(0)
-//  {}
-//
-//  bool process(const std::string& line)
-//  {
-//    counter_++;
-//    return counter_ == count_;
-//  }
-//
-//  void reset()
-//  {
-//    counter_ = 0;
-//  }
-//
-//private:
-//  std::size_t count_;
-//  std::size_t counter_;
-//};
-
 TEST(TestMultiGrep, TestGrep1)
 {
   std::string line;

@@ -33,8 +33,10 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/src/TestCircBuffer.o \
 	${OBJECTDIR}/_ext/_DOTDOT/src/MultiGrep.o \
-	${OBJECTDIR}/_ext/_DOTDOT/src/CircBuffer.o \
 	${OBJECTDIR}/_ext/_DOTDOT/src/Grep.o \
+	${OBJECTDIR}/_ext/_DOTDOT/src/CircBuffer.o \
+	${OBJECTDIR}/_ext/_DOTDOT/src/LineNumber.o \
+	${OBJECTDIR}/src/TestLineNumber.o \
 	${OBJECTDIR}/src/TestMultiGrep.o
 
 # C Compiler Flags
@@ -71,15 +73,25 @@ ${OBJECTDIR}/_ext/_DOTDOT/src/MultiGrep.o: nbproject/Makefile-${CND_CONF}.mk ../
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../include -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/_DOTDOT/src/MultiGrep.o ../src/MultiGrep.cpp
 
+${OBJECTDIR}/_ext/_DOTDOT/src/Grep.o: nbproject/Makefile-${CND_CONF}.mk ../src/Grep.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/_DOTDOT/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../include -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/_DOTDOT/src/Grep.o ../src/Grep.cpp
+
 ${OBJECTDIR}/_ext/_DOTDOT/src/CircBuffer.o: nbproject/Makefile-${CND_CONF}.mk ../src/CircBuffer.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/_DOTDOT/src
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../include -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/_DOTDOT/src/CircBuffer.o ../src/CircBuffer.cpp
 
-${OBJECTDIR}/_ext/_DOTDOT/src/Grep.o: nbproject/Makefile-${CND_CONF}.mk ../src/Grep.cpp 
+${OBJECTDIR}/_ext/_DOTDOT/src/LineNumber.o: nbproject/Makefile-${CND_CONF}.mk ../src/LineNumber.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/_DOTDOT/src
 	${RM} $@.d
-	$(COMPILE.cc) -g -I../include -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/_DOTDOT/src/Grep.o ../src/Grep.cpp
+	$(COMPILE.cc) -g -I../include -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/_DOTDOT/src/LineNumber.o ../src/LineNumber.cpp
+
+${OBJECTDIR}/src/TestLineNumber.o: nbproject/Makefile-${CND_CONF}.mk src/TestLineNumber.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../include -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/TestLineNumber.o src/TestLineNumber.cpp
 
 ${OBJECTDIR}/src/TestMultiGrep.o: nbproject/Makefile-${CND_CONF}.mk src/TestMultiGrep.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
