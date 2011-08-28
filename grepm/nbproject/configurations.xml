@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>include/BoostGrep.h</itemPath>
       <itemPath>include/Buffer.h</itemPath>
       <itemPath>include/Chain.h</itemPath>
       <itemPath>include/ChainItem.h</itemPath>
@@ -23,6 +24,7 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>src/BoostGrep.cpp</itemPath>
       <itemPath>src/CircBuffer.cpp</itemPath>
       <itemPath>src/Grep.cpp</itemPath>
       <itemPath>src/LineNumber.cpp</itemPath>
@@ -51,6 +53,7 @@
         </ccTool>
         <linkerTool>
           <linkerLibItems>
+            <linkerLibLibItem>boost_regex</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
@@ -76,6 +79,7 @@
         </fortranCompilerTool>
         <linkerTool>
           <linkerLibItems>
+            <linkerLibLibItem>boost_regex</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>

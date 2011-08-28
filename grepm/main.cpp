@@ -25,7 +25,7 @@ THE SOFTWARE.
  */
 
 #include <MultiGrep.h>
-#include <Grep.h>
+#include <BoostGrep.h>
 #include <LineNumber.h>
 #include <LineCount.h>
 #include <iostream>
@@ -85,13 +85,13 @@ int main(int argc, char* argv[])
   LineCount lineCount;
 
   // Filtering
-  Grep grep(pattern);
+  BoostGrep grep(pattern);
 
   //Postprocessing
   LineNumber lineNumber;
 
   // Buffering
-  MultiGrep multiGrep(2);
+  MultiGrep multiGrep(0);
 
   std::string line;
   while (getline(std::cin, line))

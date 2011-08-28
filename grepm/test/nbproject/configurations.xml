@@ -13,11 +13,13 @@
                    displayName="Source Files"
                    projectFiles="true">
       <logicalFolder name="src" displayName="src" projectFiles="true">
+        <itemPath>../src/BoostGrep.cpp</itemPath>
         <itemPath>../src/CircBuffer.cpp</itemPath>
         <itemPath>../src/Grep.cpp</itemPath>
         <itemPath>../src/LineNumber.cpp</itemPath>
         <itemPath>../src/MultiGrep.cpp</itemPath>
       </logicalFolder>
+      <itemPath>../src/TestBoostGrep.cpp</itemPath>
       <itemPath>src/TestChain.cpp</itemPath>
       <itemPath>src/TestCircBuffer.cpp</itemPath>
       <itemPath>src/TestLineNumber.cpp</itemPath>
@@ -50,6 +52,7 @@
         <linkerTool>
           <linkerLibItems>
             <linkerLibLibItem>gtest_main</linkerLibLibItem>
+            <linkerLibLibItem>boost_regex</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>

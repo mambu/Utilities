@@ -37,8 +37,10 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/_DOTDOT/src/CircBuffer.o \
 	${OBJECTDIR}/_ext/_DOTDOT/src/LineNumber.o \
 	${OBJECTDIR}/src/TestChain.o \
+	${OBJECTDIR}/src/TestMultiGrep.o \
 	${OBJECTDIR}/src/TestLineNumber.o \
-	${OBJECTDIR}/src/TestMultiGrep.o
+	${OBJECTDIR}/_ext/_DOTDOT/src/TestBoostGrep.o \
+	${OBJECTDIR}/_ext/_DOTDOT/src/BoostGrep.o
 
 # C Compiler Flags
 CFLAGS=
@@ -54,7 +56,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lgtest_main
+LDLIBSOPTIONS=-lgtest_main -lboost_regex
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -94,15 +96,25 @@ ${OBJECTDIR}/src/TestChain.o: nbproject/Makefile-${CND_CONF}.mk src/TestChain.cp
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../include -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/TestChain.o src/TestChain.cpp
 
+${OBJECTDIR}/src/TestMultiGrep.o: nbproject/Makefile-${CND_CONF}.mk src/TestMultiGrep.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../include -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/TestMultiGrep.o src/TestMultiGrep.cpp
+
 ${OBJECTDIR}/src/TestLineNumber.o: nbproject/Makefile-${CND_CONF}.mk src/TestLineNumber.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} $@.d
 	$(COMPILE.cc) -g -I../include -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/TestLineNumber.o src/TestLineNumber.cpp
 
-${OBJECTDIR}/src/TestMultiGrep.o: nbproject/Makefile-${CND_CONF}.mk src/TestMultiGrep.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
+${OBJECTDIR}/_ext/_DOTDOT/src/TestBoostGrep.o: nbproject/Makefile-${CND_CONF}.mk ../src/TestBoostGrep.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/_DOTDOT/src
 	${RM} $@.d
-	$(COMPILE.cc) -g -I../include -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/TestMultiGrep.o src/TestMultiGrep.cpp
+	$(COMPILE.cc) -g -I../include -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/_DOTDOT/src/TestBoostGrep.o ../src/TestBoostGrep.cpp
+
+${OBJECTDIR}/_ext/_DOTDOT/src/BoostGrep.o: nbproject/Makefile-${CND_CONF}.mk ../src/BoostGrep.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/_DOTDOT/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -I../include -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/_DOTDOT/src/BoostGrep.o ../src/BoostGrep.cpp
 
 # Subprojects
 .build-subprojects:
