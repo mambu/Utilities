@@ -31,55 +31,70 @@ THE SOFTWARE.
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
+#include <boost/program_options.hpp>
+#include <boost/program_options/positional_options.hpp>
 
-void usage()
-{
-   std::cout << "Usage: grepm [Options] pattern [filename]" << std::endl;
-   std::cout << "Parameters:" << std::endl;
-   std::cout << "\tpattern\tPattern to search for" << std::endl;
-   std::cout << "\tfilename\tFile to read from" << std::endl;
-   std::cout << "Options:" << std::endl;
-   std::cout << "\t-h\tPrint help and exit" << std::endl;
-   std::cout << "\t-n\tPrint line numbers" << std::endl;
-   std::cout << "\t-s\tPrint summary at the end" << std::endl;
-}
+namespace po = boost::program_options;
 
 int main(int argc, char* argv[])
 {
-  if (argc == 2 && std::string(argv[1]) == "-h")
-  {
-    usage();
-    return 0;
-  }
+  int bufferSize;
 
-  if (argc < 2)
+  po::options_description genericOpts("Generic options");
+  genericOpts.add_options()
+    ("help,h", "produce help message")
+    //("verbose,v", "produce verbose output")
+;
+  po::options_description parsingOpts("Parsing options");
+  parsingOpts.add_options()
+    ("buffer-size,b", po::value<int>(&bufferSize)->default_value(2), "Buffer size (how many lines to print before and after matching line)")
+    ("line-num,n", "Print line numbers")
+    ("summary,s", "Print summary at the end")
+;
+  po::options_description hiddenOpts("Hidden"); // Positional parameters
+  hiddenOpts.add_options()
+      ("regex-pattern", po::value<std::string>(), "")
+      ("input-file", po::value<std::string>(), "")
+;
+  po::positional_options_description pd;
+  pd.add("regex-pattern", 1);//.add("input-file", 1);
+
+  po::options_description visibleOpts("");
+  visibleOpts.add(genericOpts).add(parsingOpts);
+
+  po::options_description cmdLineOpts;
+  cmdLineOpts.add(genericOpts).add(parsingOpts).add(hiddenOpts);
+  po::variables_map vm;
+  try
   {
-    usage();
+    po::store(po::command_line_parser(argc, argv).options(cmdLineOpts).positional(pd).run(), vm);
+    po::notify(vm);
+  }
+  catch(const po::error& e)
+  {
+    std::cout << "Usage: grepm [Options] regex-pattern" << std::endl;
+    std::cout << visibleOpts << std::endl;
     return 1;
   }
 
-  // parse options
-  bool lineNumbers = false;
-  bool summary = false;
-
-  int i = 1;
-  while ((i < argc - 1) && std::string(argv[i]).size() == 2 && argv[i][0] == '-')
+  if (vm.count("help"))
   {
-    switch (argv[i][1])
-    {
-      case 'n':
-        lineNumbers = true;
-        break;
-      case 's':
-        summary = true;
-        break;
-      default:
-        break;
-    }
-    ++i;
+    std::cout << "Usage: grepm [Options] regex-pattern" << std::endl;
+    std::cout << visibleOpts << std::endl;
+    return 0;
+  }
+  
+  if (vm.count("regex-pattern") == 0)
+  {
+    std::cout << "Usage: grepm [Options] regex-pattern" << std::endl;
+    std::cout << visibleOpts << std::endl;
+    return 1;
   }
 
-  std::string pattern = argv[i];
+  bool lineNumbers = vm.count("line-num");
+  bool summary = vm.count("summary");
+  std::string pattern = vm["regex-pattern"].as<std::string>();
 
   // Preprocessing
   LineCount lineCount;
@@ -91,7 +106,7 @@ int main(int argc, char* argv[])
   LineNumber lineNumber;
 
   // Buffering
-  MultiGrep multiGrep(0);
+  MultiGrep multiGrep(bufferSize);
 
   std::string line;
   while (getline(std::cin, line))

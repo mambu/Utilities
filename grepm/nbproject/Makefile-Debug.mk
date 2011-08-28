@@ -52,7 +52,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lboost_regex
+LDLIBSOPTIONS=-lboost_regex -lboost_program_options
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
