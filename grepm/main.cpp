@@ -37,28 +37,47 @@ THE SOFTWARE.
 
 namespace po = boost::program_options;
 
+#define HELP_OPTSTR "help"
+#define HELP_OPTCHR "h"
+#define HELP_OPTDSC "produce help message and exit"
+#define BUFFERSIZE_OPTSTR "buffersize"
+#define BUFFERSIZE_OPTCHR "b"
+#define BUFFERSIZE_OPTDSC "Buffer size (how many lines to print before and after matching line)"
+#define LINENUM_OPTSTR "line-nun"
+#define LINENUM_OPTCHR "n"
+#define LINENUM_OPTDSC "Print line numbers"
+#define SUMMARY_OPTSTR "summary"
+#define SUMMARY_OPTCHR "s"
+#define SUMMARY_OPTDSC "Print summary at the end"
+
+#define REGEXPATTERN_OPTSTR "regex-pattern"
+#define INPUTFILE_OPTSTR "input-file"
+
+#define PROG_STR grepm
+#define USAGE_STR "Usage: grepm [Options] "REGEXPATTERN_OPTSTR" ["INPUTFILE_OPTSTR"]"
+
 int main(int argc, char* argv[])
 {
   int bufferSize;
 
   po::options_description genericOpts("Generic options");
   genericOpts.add_options()
-    ("help,h", "produce help message")
+    (HELP_OPTSTR","HELP_OPTCHR, HELP_OPTDSC)
     //("verbose,v", "produce verbose output")
 ;
   po::options_description parsingOpts("Parsing options");
   parsingOpts.add_options()
-    ("buffer-size,b", po::value<int>(&bufferSize)->default_value(2), "Buffer size (how many lines to print before and after matching line)")
-    ("line-num,n", "Print line numbers")
-    ("summary,s", "Print summary at the end")
+    (BUFFERSIZE_OPTSTR","BUFFERSIZE_OPTCHR, po::value<int>(&bufferSize)->default_value(2), BUFFERSIZE_OPTDSC)
+    (LINENUM_OPTSTR","LINENUM_OPTCHR, LINENUM_OPTDSC)
+    (SUMMARY_OPTSTR","SUMMARY_OPTCHR, SUMMARY_OPTDSC)
 ;
   po::options_description hiddenOpts("Hidden"); // Positional parameters
   hiddenOpts.add_options()
-      ("regex-pattern", po::value<std::string>(), "")
-      ("input-file", po::value<std::string>(), "")
+      (REGEXPATTERN_OPTSTR, po::value<std::string>(), "")
+      (INPUTFILE_OPTSTR, po::value<std::string>(), "")
 ;
   po::positional_options_description pd;
-  pd.add("regex-pattern", 1);//.add("input-file", 1);
+  pd.add(REGEXPATTERN_OPTSTR, 1).add(INPUTFILE_OPTSTR, 1);
 
   po::options_description visibleOpts("");
   visibleOpts.add(genericOpts).add(parsingOpts);
@@ -73,28 +92,34 @@ int main(int argc, char* argv[])
   }
   catch(const po::error& e)
   {
-    std::cout << "Usage: grepm [Options] regex-pattern" << std::endl;
+    std::cout << USAGE_STR << std::endl;
     std::cout << visibleOpts << std::endl;
     return 1;
   }
 
-  if (vm.count("help"))
+  if (vm.count(HELP_OPTSTR))
   {
-    std::cout << "Usage: grepm [Options] regex-pattern" << std::endl;
+    std::cout << USAGE_STR << std::endl;
     std::cout << visibleOpts << std::endl;
     return 0;
   }
   
-  if (vm.count("regex-pattern") == 0)
+  if (vm.count(REGEXPATTERN_OPTSTR) == 0)
   {
-    std::cout << "Usage: grepm [Options] regex-pattern" << std::endl;
+    std::cout << USAGE_STR << std::endl;
     std::cout << visibleOpts << std::endl;
     return 1;
   }
 
-  bool lineNumbers = vm.count("line-num");
-  bool summary = vm.count("summary");
-  std::string pattern = vm["regex-pattern"].as<std::string>();
+  std::istream& input = std::cin;
+  if (vm.count(INPUTFILE_OPTSTR) == 0)
+  {
+    // read from file, else read from cin
+  }
+
+  bool lineNumbers = vm.count(LINENUM_OPTSTR);
+  bool summary = vm.count(SUMMARY_OPTSTR);
+  std::string pattern = vm[REGEXPATTERN_OPTSTR].as<std::string>();
 
   // Preprocessing
   LineCount lineCount;
@@ -109,7 +134,7 @@ int main(int argc, char* argv[])
   MultiGrep multiGrep(bufferSize);
 
   std::string line;
-  while (getline(std::cin, line))
+  while (getline(input, line))
   {
     lineCount.process(line);
     bool filterRes = grep.process(line);
